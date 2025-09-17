@@ -16,7 +16,13 @@ describe "el camión " {
 	}
 
 	test "todo peso par" {
+        camion.cargar(bumblebee)
+        arenaAGranel.peso(50)
+        camion.cargar(arenaAGranel)
+        assert.that(camion.soloCargaPar())
+        arenaAGranel.peso(51)
+        assert.notThat(camion.soloCargaPar())
 		}
-
 }
+
 	

@@ -34,5 +34,9 @@ object camion {
 	method tiene(otrasCosas){
 		return otrasCosas.all{unaCosa => self.tieneCargado(unaCosa)}
 	}
+
+	method soloCargaPar(){
+		return cosas.all{unaCosa => unaCosa.siEsPesoPar()}
+	}
 }
 
