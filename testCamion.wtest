@@ -34,6 +34,17 @@ describe "el camión " {
         assert.notThat(camion.hayAlgoQuePesa(500))
 
         }
+
+    test "Peso y exceso de peso" {
+        camion.cargar(bumblebee)
+        paqueteLadrillos.cantidad(300)
+        camion.cargar(paqueteLadrillos)
+        assert.equals(2400, camion.pesoTotal())
+        assert.notThat(camion.excedidoPeso())
+        paqueteLadrillos.cantidad(400)
+        assert.equals(2600, camion.pesoTotal())
+        assert.that(camion.excedidoPeso())
+    }
 }
 
 	

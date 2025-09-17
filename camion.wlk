@@ -42,5 +42,18 @@ object camion {
 	method hayAlgoQuePesa(kilos) {
 		return cosas.any{unaCosa => unaCosa.peso() == kilos}
 	}
+
+	method excedidoPeso() {
+		return self.pesoTotal() > self.pesoMaximo()
+	}
+
+	var property pesoMaximo =  2500
+	
+	const tara = 1000
+	method tara() {return 1000}
+
+	method pesoTotal() {
+		return tara + cosas.sum({cosa => cosa.peso()})
+	}
 }
 
