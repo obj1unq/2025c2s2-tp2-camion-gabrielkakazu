@@ -45,6 +45,25 @@ describe "el camión " {
         assert.equals(2600, camion.pesoTotal())
         assert.that(camion.excedidoPeso())
     }
+
+    test "El de nivel de peligrosidad" {
+        bumblebee.transformar()
+        assert.that(bumblebee.transformadoAuto())
+        camion.cargar(bumblebee)
+        bateriaAntiAerea.conMisiles(false)
+        camion.cargar(bateriaAntiAerea)
+        camion.cargar(residuosRadiactivos)
+
+        assert.equals(bateriaAntiAerea, camion.findAlgoConPeligrosidad(0))
+        assert.equals(bumblebee, camion.findAlgoConPeligrosidad(15))
+        assert.equals(residuosRadiactivos, camion.findAlgoConPeligrosidad(200))
+        assert.throwsException({camion.findAlgoConPeligrosidad(30)})
+        bumblebee.transformar()
+        assert.notThat(bumblebee.transformadoAuto())
+        assert.equals(bumblebee, camion.findAlgoConPeligrosidad(30))
+        bateriaAntiAerea.conMisiles(true)
+        assert.equals(bateriaAntiAerea, camion.findAlgoConPeligrosidad(100))
+    }
 }
 
 	

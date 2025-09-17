@@ -48,12 +48,16 @@ object camion {
 	}
 
 	var property pesoMaximo =  2500
-	
+
 	const tara = 1000
 	method tara() {return 1000}
 
 	method pesoTotal() {
 		return tara + cosas.sum({cosa => cosa.peso()})
+	}
+
+	method findAlgoConPeligrosidad(peligrosidad){
+		return cosas.find({cosa => cosa.nivelPeligrosidad() == peligrosidad})
 	}
 }
 
