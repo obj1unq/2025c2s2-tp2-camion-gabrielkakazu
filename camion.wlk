@@ -38,5 +38,9 @@ object camion {
 	method soloCargaPar(){
 		return cosas.all{unaCosa => unaCosa.siEsPesoPar()}
 	}
+
+	method hayAlgoQuePesa(kilos) {
+		return cosas.any{unaCosa => unaCosa.peso() == kilos}
+	}
 }
 
