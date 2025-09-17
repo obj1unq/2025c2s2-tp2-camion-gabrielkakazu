@@ -68,4 +68,13 @@ object bateriaAntiAerea {
 	}
 }
 
+object residuosRadiactivos	{
+	var property peso = 0
+
+	method nivelPeligrosidad() {return 200}
+
+	method siEsPesoPar() {
+		return self.peso().even()
+	}
+}
 
