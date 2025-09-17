@@ -1,0 +1,22 @@
+import camion.*
+import cosas.*
+
+describe "el camión " {
+
+	test "carga y descarga" {
+		assert.that(camion.estaVacio())
+		camion.cargar(bumblebee)
+		assert.that(camion.tieneCargado(bumblebee))
+		camion.cargar(knightRider)
+		assert.that(camion.tiene(#{bumblebee, knightRider}))		
+		camion.descargar(bumblebee)
+		assert.that(camion.tieneCargado(knightRider))
+		assert.throwsException({camion.cargar(knightRider)})
+		assert.throwsException({camion.descargar(bumblebee)})
+	}
+
+	test "todo peso par" {
+		}
+
+}
+	
