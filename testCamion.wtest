@@ -64,6 +64,15 @@ describe "el camión " {
         bateriaAntiAerea.conMisiles(true)
         assert.equals(bateriaAntiAerea, camion.findAlgoConPeligrosidad(100))
     }
+
+    test "cosas peligrosas" {
+        camion.cargar(knightRider)
+        camion.cargar(bateriaAntiAerea)
+        bateriaAntiAerea.conMisiles(true)
+        assert.equals(#{bateriaAntiAerea}, camion.cosasPeligrosasQue({cosa.nivelPeligrosidad() == 15}))
+        assert.equals(#{bateriaAntiAerea}, camion.cosasPeligrosasQue({cosa.nivelPeligrosidad() > bumblebee.nivelPeligrosidad() }))
+        
+    }
 }
 
 	
