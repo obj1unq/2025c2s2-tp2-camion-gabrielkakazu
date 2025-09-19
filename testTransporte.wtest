@@ -16,4 +16,12 @@ describe "Test de Transporte"{
             #{knightRider, residuosRadiactivos, bumblebee, arenaAGranel},
             almacen.cosas())
     }
+
+    test "caso ruta 9 fallido por peligrosidad" {
+        bumblebee.transformadoAuto(false)
+        assert.throwsException({camion.transportar(almacen, ruta9)})
+        assert.equals(#{knightRider, residuosRadiactivos}, almacen.cosas())
+        assert.equals(#{bumblebee, arenaAGranel}, camion.cosas())
+    }
+
 }

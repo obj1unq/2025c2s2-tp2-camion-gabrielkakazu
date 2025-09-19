@@ -96,8 +96,11 @@ object camion {
 	}
 
 	method validarCamino(camino) {
-		return self.puedeCircularPorRuta(camino.nivelPeligrosidadPermitido()) 
-			&& (self.pesoTotal() <= camino.pesoMaximoPermitido())
+		if (!self.puedeCircularPorRuta(
+				camino.nivelPeligrosidadPermitido()) 
+			or (self.pesoTotal() <= camino.pesoMaximoPermitido())) {
+				self.error("no puede circular por el camino")
+			}
 	}
 
 
