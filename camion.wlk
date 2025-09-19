@@ -19,6 +19,10 @@ object camion {
 		cosas.remove(unaCosa)
 	}
 
+	method descargarTodo() {
+		cosas.clear()
+	}
+
 	method validarDescargar(unaCosa){
 		return if (not self.tieneCargado(unaCosa)) {
 			self.error("no se tiene cargado " + unaCosa)
@@ -90,6 +94,11 @@ object camion {
 
 	method hayAlgoQuePesaMenosQue(kilos) {
 		return cosas.any{unaCosa => unaCosa.peso() <= kilos}
+	}
+
+	method laCosaMasPesada() {
+		// const listaCosas = cosas.asList()
+		return cosas.max({cosa => cosa.peso()})
 	}
 }
 

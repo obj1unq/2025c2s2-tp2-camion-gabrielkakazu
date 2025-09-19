@@ -164,9 +164,23 @@ test "cosas peligrosas" {
         paqueteLadrillos.cantidad(300)
         camion.cargar(paqueteLadrillos)
         assert.notThat(camion.tieneAlgoQuePesaEntre(5,100))
+        //bumblebee pesa 800 y los ladrillos pesan 600       
         assert.that(camion.tieneAlgoQuePesaEntre(5,1000))
         assert.notThat(camion.tieneAlgoQuePesaEntre(900,1000))
     }
+
+    test "cosa más pesada"{
+        camion.cargar(bumblebee)
+        paqueteLadrillos.cantidad(300)
+        camion.cargar(paqueteLadrillos)
+        assert.equals(bumblebee, camion.laCosaMasPesada())
+        // camion vacío
+        camion.descargarTodo()
+        assert.throwsException({camion.laCosaMasPesada()})
+    }
+
+
+
 }
 
 	
