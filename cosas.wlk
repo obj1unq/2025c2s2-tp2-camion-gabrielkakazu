@@ -9,7 +9,7 @@ object knightRider {
 	method bultos() {return 1}
 
 	method accidente() {
-		console.println("sin efecto por accidente")
+		console.println("KITT sin efecto por accidente")
 	}
 }
 
