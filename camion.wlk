@@ -8,6 +8,10 @@ object camion {
 		cosas.add(unaCosa)
 	}
 
+	method cargarMuchas(variasCosas) {
+		cosas.union(variasCosas)
+	}
+
 	method validarCargar(unaCosa){
 		if (cosas.contains(unaCosa)){
 			self.error("deposito ya tiene " + unaCosa + ", no se puede cargar algo ya cargado")
@@ -115,10 +119,14 @@ object camion {
 		return ordenPorPesos.map({cosa => cosa.peso()})
 	}
 
+	method totalBultos() {
+		return cosas.sum({cosa => cosa.bultos()})
+	}
 
 
 
-	
+
+
 }
 
 
@@ -132,7 +140,7 @@ object contenedorPortuario {
 	}
 
 	method cargarMuchas(variasCosas) {
-		cosas.addAll(variasCosas)
+		cosas.union(variasCosas)
 	}
 
 	method descargar(unaCosa) {
@@ -154,6 +162,11 @@ object contenedorPortuario {
 
 	method nivelPeligrosidad() {
 		return nivelDePeligrosidad + cosas.sum({cosa => cosa.nivelPeligrosidad()})
+	}
+
+	method bultos() {
+		return 
+			1 + cosas.sum({cosa => cosa.bultos()} )
 	}
 
 	

@@ -186,9 +186,20 @@ test "cosas peligrosas" {
         assert.equals([800,600], camion.todosLosPesosDESC())
     }
 
-    
+    test "Caso 1 de bultos" {
+        contenedorPortuario.cargar(knightRider)
+        contenedorPortuario.cargar(bumblebee)
+        embalajeSeguridad.embalar(residuosRadiactivos)
+        paqueteLadrillos.cantidad(50)
+        bateriaAntiAerea.conMisiles(false)
+        camion.cargar(contenedorPortuario) 
+        camion.cargar(embalajeSeguridad) 
+        camion.cargar(arenaAGranel)
+        camion.cargar(paqueteLadrillos)
+        camion.cargar(bateriaAntiAerea)
+        assert.equals(9, camion.totalBultos())
 
-
+    }
 }
 
 	

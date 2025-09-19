@@ -5,6 +5,8 @@ object knightRider {
 	method siEsPesoPar() {
 		return self.peso().even()
 	}
+
+	method bultos() {return 1}
 }
 
 object arenaAGranel {
@@ -14,6 +16,8 @@ object arenaAGranel {
 	method siEsPesoPar() {
 		return self.peso().even()
 	}
+
+	method bultos() {return 1}
 }
 
 object bumblebee {
@@ -33,6 +37,8 @@ object bumblebee {
 	method siEsPesoPar() {
 		return self.peso().even()
 	}
+
+	method bultos() {return 2}
 }
 
 object paqueteLadrillos {
@@ -49,7 +55,17 @@ object paqueteLadrillos {
 	method siEsPesoPar() {
 		return self.peso().even()
 	}
-}
+
+	method bultos() {
+		return if (cantidad >300) {
+			3} else if (cantidad <=100) {
+				1
+			} else {
+				2
+			}
+		}
+	}
+
 
 object bateriaAntiAerea {
 	var property conMisiles = true
@@ -66,6 +82,10 @@ object bateriaAntiAerea {
 	method siEsPesoPar() {
 		return self.peso().even()
 	}
+
+	method bultos() {
+		return if (conMisiles) {2
+			} else {1} }
 }
 
 object residuosRadiactivos	{
@@ -76,6 +96,8 @@ object residuosRadiactivos	{
 	method siEsPesoPar() {
 		return self.peso().even()
 	}
+
+	method bultos() {return 1}
 }
 
 object embalajeSeguridad {
@@ -90,6 +112,8 @@ object embalajeSeguridad {
 	}
 
 	method pesoTotal() { return embalado.peso()}
+
+	method bultos() {return 2}
 
 }
 
