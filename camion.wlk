@@ -140,7 +140,7 @@ object contenedorPortuario {
 	}
 
 	method cargarMuchas(variasCosas) {
-		cosas.union(variasCosas)
+		cosas.addAll(variasCosas)
 	}
 
 	method descargar(unaCosa) {
@@ -156,7 +156,7 @@ object contenedorPortuario {
 
 	var property nivelDePeligrosidad = 0
 
-	method pesoTotal() {
+	method peso() {
 		return tara + cosas.sum({cosa => cosa.peso()})
 	}
 

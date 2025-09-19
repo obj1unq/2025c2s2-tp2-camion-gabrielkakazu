@@ -142,18 +142,18 @@ test "cosas peligrosas" {
 
     test "Más cosas" {
         assert.that(contenedorPortuario.estaVacio())
-        assert.equals(100, contenedorPortuario.pesoTotal())
+        assert.equals(100, contenedorPortuario.peso())
         assert.equals(0, contenedorPortuario.nivelPeligrosidad())
         arenaAGranel.peso(50)
         contenedorPortuario.cargarMuchas(#{knightRider, arenaAGranel})
-        assert.equals(650, contenedorPortuario.pesoTotal())
+        assert.equals(650, contenedorPortuario.peso())
         assert.equals(11, contenedorPortuario.nivelPeligrosidad())
         embalajeSeguridad.embalar(knightRider)
-        assert.equals(500, embalajeSeguridad.pesoTotal())
+        assert.equals(500, embalajeSeguridad.peso())
         assert.equals(5, embalajeSeguridad.nivelPeligrosidad())
         bumblebee.transformadoAuto(true)
         embalajeSeguridad.embalar(bumblebee)
-        assert.equals(800, embalajeSeguridad.pesoTotal())
+        assert.equals(800, embalajeSeguridad.peso())
         assert.equals(7.5, embalajeSeguridad.nivelPeligrosidad())
 
     }
@@ -199,6 +199,22 @@ test "cosas peligrosas" {
         camion.cargar(bateriaAntiAerea)
         assert.equals(9, camion.totalBultos())
 
+    }
+
+    test "Caso 2 de bultos"{
+        paqueteLadrillos.cantidad(150)
+        bateriaAntiAerea.conMisiles(true)
+        camion.cargar(contenedorPortuario)
+        camion.cargar(paqueteLadrillos)
+        camion.cargar(bateriaAntiAerea)
+        assert.equals(5, camion.totalBultos())
+    }
+
+    test "Caso 3 de bultos" {
+        paqueteLadrillos.cantidad(350)
+        camion.cargar(arenaAGranel)
+        camion.cargar(paqueteLadrillos)
+        assert.equals(4, camion.totalBultos())
     }
 }
 

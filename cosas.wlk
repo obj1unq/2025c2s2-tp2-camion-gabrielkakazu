@@ -111,7 +111,7 @@ object embalajeSeguridad {
 		embalado = _cosa
 	}
 
-	method pesoTotal() { return embalado.peso()}
+	method peso() { return embalado.peso()}
 
 	method bultos() {return 2}
 
