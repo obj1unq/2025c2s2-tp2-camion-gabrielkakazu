@@ -126,6 +126,19 @@ test "cosas peligrosas" {
              camion.cosasPeligrosasQue({cosa.nivelPeligrosidad() > residuosRadiactivos.nivelPeligrosidad()}).isEmpty()
         )
     }*/
+
+    test "puede circular en ruta"{
+        camion.cargar(paqueteLadrillos)
+        camion.cargar(bumblebee)
+        bumblebee.transformadoAuto(true)
+        paqueteLadrillos.cantidad(300)
+        assert.that(camion.puedeCircularPorRuta(20))
+        paqueteLadrillos.cantidad(400)
+        assert.notThat(camion.puedeCircularPorRuta(20))
+        paqueteLadrillos.cantidad(300)
+        bumblebee.transformar()
+        assert.notThat(camion.puedeCircularPorRuta(20))
+    }
 }
 
 	

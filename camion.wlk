@@ -38,7 +38,7 @@ object camion {
 	method soloCargaPar(){
 		return cosas.all{unaCosa => unaCosa.siEsPesoPar()}
 	}
-
+//PESO
 	method hayAlgoQuePesa(kilos) {
 		return cosas.any{unaCosa => unaCosa.peso() == kilos}
 	}
@@ -56,6 +56,7 @@ object camion {
 		return tara + cosas.sum({cosa => cosa.peso()})
 	}
 
+//PELIGROSIDAD
 	method findAlgoConPeligrosidad(peligrosidad){
 		return cosas.find({cosa => cosa.nivelPeligrosidad() == peligrosidad})
 	}
@@ -71,5 +72,13 @@ object camion {
 	method cosasMasPeligrosasQueLaCosa(unaCosa){
 		return cosas.filter({cosa => cosa.nivelPeligrosidad() > unaCosa.nivelPeligrosidad()})
 	}
+
+//RUTA
+	method puedeCircularPorRuta(nivel){
+		return not self.excedidoPeso() 
+			&& self.cosasMasPeligrosasQue(nivel).isEmpty()
+	}
 }
+
+
 
