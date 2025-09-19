@@ -87,6 +87,20 @@ object camion {
 			&& self.cosasMasPeligrosasQue(nivel).isEmpty()
 	}
 
+	// TRANSPORTAR
+
+	method transportar(destino, camino) {
+		self.validarCamino(camino)
+		destino.cargarMuchas(cosas)
+		self.descargarTodo()
+	}
+
+	method validarCamino(camino) {
+		return self.puedeCircularPorRuta(camino.nivelPeligrosidadPermitido()) 
+			&& (self.pesoTotal() <= camino.pesoMaximoPermitido())
+	}
+
+
 	method tieneAlgoQuePesaEntre(min, max) {
 		return cosas.any{unaCosa => unaCosa.peso().between(min, max)  
 		}
@@ -127,7 +141,6 @@ object camion {
 	method sufreAccidente() {
 		cosas.forEach({cosa => cosa.accidente()})
 	}
-
 
 }
 
@@ -180,3 +193,36 @@ object contenedorPortuario {
 }
 
 
+//DESTINO
+object almacen{
+	const property cosas = #{}
+
+	method cargar(unaCosa) {
+		cosas.add(unaCosa)
+	}
+
+	method cargarMuchas(variasCosas) {
+		cosas.addAll(variasCosas)
+	}
+}
+
+
+// CAMINO
+object ruta9 {
+	
+	var property pesoMaximoPermitido = 0
+
+	method nivelPeligrosidadPermitido() {
+		return 20
+	}
+}
+
+object caminoVecinal {
+
+	var property pesoMaximoPermitido = 0
+
+	method nivelPeligrosidadPermitido() {
+		return 0
+	}
+
+}

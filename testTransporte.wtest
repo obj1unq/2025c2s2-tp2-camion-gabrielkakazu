@@ -1,0 +1,19 @@
+import camion.*
+import cosas.*
+
+describe "Test de Transporte"{
+    method initialize() {
+        almacen.cargarMuchas(#{knightRider, residuosRadiactivos})
+        bumblebee.transformadoAuto(true)
+        arenaAGranel.peso(50)
+        camion.cargarMuchas(#{arenaAGranel, bumblebee})
+    }
+
+    test "Caso: ruta 9 exitoso" {
+        camion.transportar(almacen, ruta9)
+        assert.that(camion.estaVacio())
+        assert.equals(
+            #{knightRider, residuosRadiactivos, bumblebee, arenaAGranel},
+            almacen.cosas())
+    }
+}
