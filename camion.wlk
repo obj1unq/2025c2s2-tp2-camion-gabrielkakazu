@@ -2,7 +2,8 @@ import cosas.*
 
 object camion {
 	const property cosas = #{}
-		
+	
+//DEPOSITO Y CARGAS 
 	method cargar(unaCosa) {
 		self.validarCargar(unaCosa)
 		cosas.add(unaCosa)
@@ -46,7 +47,15 @@ object camion {
 	method soloCargaPar(){
 		return cosas.all{unaCosa => unaCosa.siEsPesoPar()}
 	}
+
+	method totalBultos() {
+		return cosas.sum({cosa => cosa.bultos()})
+	}
+
 //PESO
+	var property pesoMaximo =  2500
+	const tara = 1000
+
 	method hayAlgoQuePesa(kilos) {
 		return cosas.any{unaCosa => unaCosa.peso() == kilos}
 	}
@@ -54,55 +63,12 @@ object camion {
 	method excedidoPeso() {
 		return self.pesoTotal() > self.pesoMaximo()
 	}
-
-	var property pesoMaximo =  2500
-
-	const tara = 1000
+	
 	method tara() {return 1000}
 
 	method pesoTotal() {
 		return tara + cosas.sum({cosa => cosa.peso()})
 	}
-
-//PELIGROSIDAD
-	method findAlgoConPeligrosidad(peligrosidad){
-		return cosas.find({cosa => cosa.nivelPeligrosidad() == peligrosidad})
-	}
-
-	method cosasPeligrosasQue(condicion){
-		return cosas.filter({cosa => condicion})
-	}
-
-	method cosasMasPeligrosasQue(nivelPeligrosidad){
-		return cosas.filter({cosa => cosa.nivelPeligrosidad() > nivelPeligrosidad})
-	}
-
-	method cosasMasPeligrosasQueLaCosa(unaCosa){
-		return cosas.filter({cosa => cosa.nivelPeligrosidad() > unaCosa.nivelPeligrosidad()})
-	}
-
-//RUTA
-	method puedeCircularPorRuta(nivel){
-		return not self.excedidoPeso() 
-			&& self.cosasMasPeligrosasQue(nivel).isEmpty()
-	}
-
-	// TRANSPORTAR
-
-	method transportar(destino, camino) {
-		self.validarCamino(camino)
-		destino.cargarMuchas(cosas)
-		self.descargarTodo()
-	}
-
-	method validarCamino(camino) {
-		if (not self.puedeCircularPorRuta(
-				camino.nivelPeligrosidadPermitido()) 
-			or (self.pesoTotal() > camino.pesoMaximoPermitido())) {
-				self.error("no puede circular por el camino")
-			}
-	}
-
 
 	method tieneAlgoQuePesaEntre(min, max) {
 		return cosas.any{unaCosa => unaCosa.peso().between(min, max)  
@@ -136,10 +102,44 @@ object camion {
 		return ordenPorPesos.map({cosa => cosa.peso()})
 	}
 
-	method totalBultos() {
-		return cosas.sum({cosa => cosa.bultos()})
+//PELIGROSIDAD
+	method findAlgoConPeligrosidad(peligrosidad){
+		return cosas.find({cosa => cosa.nivelPeligrosidad() == peligrosidad})
 	}
 
+	method cosasPeligrosasQue(condicion){
+		return cosas.filter({cosa => condicion})
+	}
+
+	method cosasMasPeligrosasQue(nivelPeligrosidad){
+		return cosas.filter({cosa => cosa.nivelPeligrosidad() > nivelPeligrosidad})
+	}
+
+	method cosasMasPeligrosasQueLaCosa(unaCosa){
+		return cosas.filter({cosa => cosa.nivelPeligrosidad() > unaCosa.nivelPeligrosidad()})
+	}
+
+//RUTA
+	method puedeCircularPorRuta(nivel){
+		return not self.excedidoPeso() 
+			&& self.cosasMasPeligrosasQue(nivel).isEmpty()
+	}
+
+// TRANSPORTAR
+
+	method transportar(destino, camino) {
+		self.validarCamino(camino)
+		destino.cargarMuchas(cosas)
+		self.descargarTodo()
+	}
+
+	method validarCamino(camino) {
+		if (not self.puedeCircularPorRuta(
+				camino.nivelPeligrosidadPermitido()) 
+			or (self.pesoTotal() > camino.pesoMaximoPermitido())) {
+				self.error("no puede circular por el camino")
+			}
+	}
 
 	method sufreAccidente() {
 		cosas.forEach({cosa => cosa.accidente()})
@@ -210,7 +210,7 @@ object almacen{
 }
 
 
-// CAMINO
+// CAMINOS
 object ruta9 {
 	
 	var property pesoMaximoPermitido = 9999999

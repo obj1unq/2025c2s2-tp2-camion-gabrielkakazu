@@ -1,7 +1,7 @@
 import camion.*
 import cosas.*
 
-describe "el camión" {
+describe "Tests del camión" {
 
 	test "carga y descarga" {
 		assert.that(camion.estaVacio())
