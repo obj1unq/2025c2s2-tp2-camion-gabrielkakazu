@@ -97,8 +97,14 @@ object camion {
 	}
 
 	method laCosaMasPesada() {
-		// const listaCosas = cosas.asList()
+		self.validarCosaMasPesada()
 		return cosas.max({cosa => cosa.peso()})
+	}
+
+	method validarCosaMasPesada() {
+		if (self.estaVacio()) {
+			self.error("no se puede calcular cosa más pesada porque el camión está vacío")
+		}
 	}
 }
 
