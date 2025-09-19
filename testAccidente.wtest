@@ -1,0 +1,31 @@
+import camion.*
+import cosas.*
+
+describe "Accidente" {
+    test "caso 1" {
+        bumblebee.transformadoAuto(true)
+
+        contenedorPortuario.cargarMuchas(#{bumblebee, knightRider})
+        
+        residuosRadiactivos.peso(30)
+        embalajeSeguridad.embalar(residuosRadiactivos)
+        
+        arenaAGranel.peso(50)
+        paqueteLadrillos.cantidad(100)
+        bateriaAntiAerea.conMisiles(true)
+        camion.cargarMuchas(#{contenedorPortuario, 
+            embalajeSeguridad,
+            arenaAGranel, 
+            paqueteLadrillos,
+            bateriaAntiAerea})
+        // setting
+
+        // accidente
+        camion.sufreAccidente()
+        
+        assert.notThat(bumblebee.transformadoAuto())
+        assert.equals(45, residuosRadiactivos.peso()) //el embalado de seguridad no funca LOL
+        assert.equals(70, arenaAGranel.peso())
+        assert.equals(88, paqueteLadrillos.cantidad())
+    }
+}

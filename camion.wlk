@@ -9,7 +9,7 @@ object camion {
 	}
 
 	method cargarMuchas(variasCosas) {
-		cosas.union(variasCosas)
+		cosas.addAll(variasCosas)
 	}
 
 	method validarCargar(unaCosa){
@@ -124,7 +124,9 @@ object camion {
 	}
 
 
-
+	method sufreAccidente() {
+		cosas.forEach({cosa => cosa.accidente()})
+	}
 
 
 }
@@ -169,6 +171,9 @@ object contenedorPortuario {
 			1 + cosas.sum({cosa => cosa.bultos()} )
 	}
 
+	method accidente() {
+		cosas.forEach({cosa => cosa.accidente()})
+	}
 	
 
 

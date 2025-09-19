@@ -7,6 +7,10 @@ object knightRider {
 	}
 
 	method bultos() {return 1}
+
+	method accidente() {
+		console.println("sin efecto por accidente")
+	}
 }
 
 object arenaAGranel {
@@ -18,6 +22,11 @@ object arenaAGranel {
 	}
 
 	method bultos() {return 1}
+
+	method accidente() {
+		peso += 20
+	}
+
 }
 
 object bumblebee {
@@ -39,6 +48,10 @@ object bumblebee {
 	}
 
 	method bultos() {return 2}
+
+	method accidente() {
+		self.transformar()
+	}
 }
 
 object paqueteLadrillos {
@@ -63,8 +76,13 @@ object paqueteLadrillos {
 			} else {
 				2
 			}
-		}
 	}
+
+	method accidente() {
+		cantidad = (cantidad - 12).max(0)
+	}
+
+}
 
 
 object bateriaAntiAerea {
@@ -86,6 +104,10 @@ object bateriaAntiAerea {
 	method bultos() {
 		return if (conMisiles) {2
 			} else {1} }
+
+	method accidente() {
+		self.conMisiles(false)
+	}
 }
 
 object residuosRadiactivos	{
@@ -98,6 +120,10 @@ object residuosRadiactivos	{
 	}
 
 	method bultos() {return 1}
+
+	method accidente() {
+		peso += 15
+	}
 }
 
 object embalajeSeguridad {
@@ -114,6 +140,10 @@ object embalajeSeguridad {
 	method peso() { return embalado.peso()}
 
 	method bultos() {return 2}
+
+	method accidente() {
+		embalado.accidente()
+	}
 
 }
 
