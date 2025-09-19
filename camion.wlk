@@ -106,7 +106,21 @@ object camion {
 			self.error("no se puede calcular cosa más pesada porque el camión está vacío")
 		}
 	}
+
+	method todosLosPesosDESC() {
+		const listaDeCosas = cosas.asList()
+		const ordenPorPesos = listaDeCosas.sortedBy({
+			unaCosa, otraCosa => unaCosa.peso() > otraCosa.peso()
+		})
+		return ordenPorPesos.map({cosa => cosa.peso()})
+	}
+
+
+
+
+	
 }
+
 
 object contenedorPortuario {
 	const property cosas = #{}

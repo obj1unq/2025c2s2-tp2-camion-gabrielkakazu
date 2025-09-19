@@ -179,6 +179,14 @@ test "cosas peligrosas" {
         assert.throwsException({camion.laCosaMasPesada()})
     }
 
+    test "para saber los pesos de las cosas el camión"{
+        camion.cargar(bumblebee)
+        paqueteLadrillos.cantidad(300)
+        camion.cargar(paqueteLadrillos)
+        assert.equals([800,600], camion.todosLosPesosDESC())
+    }
+
+    
 
 
 }
