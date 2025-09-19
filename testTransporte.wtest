@@ -10,6 +10,7 @@ describe "Test de Transporte"{
     }
 
     test "Caso: ruta 9 exitoso" {
+        ruta9
         camion.transportar(almacen, ruta9)
         assert.that(camion.estaVacio())
         assert.equals(
@@ -20,6 +21,30 @@ describe "Test de Transporte"{
     test "caso ruta 9 fallido por peligrosidad" {
         bumblebee.transformadoAuto(false)
         assert.throwsException({camion.transportar(almacen, ruta9)})
+        assert.equals(#{knightRider, residuosRadiactivos}, almacen.cosas())
+        assert.equals(#{bumblebee, arenaAGranel}, camion.cosas())
+    }
+
+    test "caso ruta 9 fallido por peso"{
+        arenaAGranel.peso(2000)
+        assert.throwsException({camion.transportar(almacen, ruta9)})
+        assert.equals(#{knightRider, residuosRadiactivos}, almacen.cosas())
+        assert.equals(#{bumblebee, arenaAGranel}, camion.cosas())
+
+    }
+
+    test "caminos vecinales exitosos" {
+        caminoVecinal.pesoMaximoPermitido(2000)
+        camion.transportar(almacen, caminoVecinal)
+        assert.that(camion.estaVacio())
+        assert.equals(
+            #{knightRider, residuosRadiactivos, bumblebee, arenaAGranel},
+            almacen.cosas())
+    }
+
+    test "caminos vecinales fallidos" {
+        caminoVecinal.pesoMaximoPermitido(300)
+        assert.throwsException({camion.transportar(almacen, caminoVecinal)})
         assert.equals(#{knightRider, residuosRadiactivos}, almacen.cosas())
         assert.equals(#{bumblebee, arenaAGranel}, camion.cosas())
     }

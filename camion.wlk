@@ -96,9 +96,9 @@ object camion {
 	}
 
 	method validarCamino(camino) {
-		if (!self.puedeCircularPorRuta(
+		if (not self.puedeCircularPorRuta(
 				camino.nivelPeligrosidadPermitido()) 
-			or (self.pesoTotal() <= camino.pesoMaximoPermitido())) {
+			or (self.pesoTotal() > camino.pesoMaximoPermitido())) {
 				self.error("no puede circular por el camino")
 			}
 	}
@@ -213,7 +213,7 @@ object almacen{
 // CAMINO
 object ruta9 {
 	
-	var property pesoMaximoPermitido = 0
+	var property pesoMaximoPermitido = 9999999
 
 	method nivelPeligrosidadPermitido() {
 		return 20
@@ -225,7 +225,7 @@ object caminoVecinal {
 	var property pesoMaximoPermitido = 0
 
 	method nivelPeligrosidadPermitido() {
-		return 0
+		return 99999
 	}
 
 }
