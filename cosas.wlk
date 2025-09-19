@@ -78,3 +78,18 @@ object residuosRadiactivos	{
 	}
 }
 
+object embalajeSeguridad {
+	var embalado = knightRider
+	var property peso = 0
+
+	method nivelPeligrosidad() {
+		return embalado.nivelPeligrosidad()/ 2}
+
+	method embalar(_cosa) {
+		embalado = _cosa
+	}
+
+	method pesoTotal() { return embalado.peso()}
+
+}
+

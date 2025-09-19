@@ -80,5 +80,41 @@ object camion {
 	}
 }
 
+object contenedorPortuario {
+	const property cosas = #{}
+
+	method estaVacio() {return cosas.isEmpty()}
+
+	method cargar(unaCosa) {
+		cosas.add(unaCosa)
+	}
+
+	method cargarMuchas(variasCosas) {
+		cosas.addAll(variasCosas)
+	}
+
+	method descargar(unaCosa) {
+		cosas.remove(unaCosa)
+	}
+	
+	method hayAlgoQuePesa(kilos) {
+		return cosas.any{unaCosa => unaCosa.peso() == kilos}
+	}
+
+	const tara = 100
+	method tara() {return tara}
+
+	var property nivelDePeligrosidad = 0
+
+	method pesoTotal() {
+		return tara + cosas.sum({cosa => cosa.peso()})
+	}
+
+	method nivelPeligrosidad() {
+		return nivelDePeligrosidad + cosas.sum({cosa => cosa.nivelPeligrosidad()})
+	}
+
+
+}
 
 

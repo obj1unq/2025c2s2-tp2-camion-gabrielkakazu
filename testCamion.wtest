@@ -139,6 +139,25 @@ test "cosas peligrosas" {
         bumblebee.transformar()
         assert.notThat(camion.puedeCircularPorRuta(20))
     }
+
+    test "Más cosas" {
+        assert.that(contenedorPortuario.estaVacio())
+        assert.equals(100, contenedorPortuario.pesoTotal())
+        assert.equals(0, contenedorPortuario.nivelPeligrosidad())
+        arenaAGranel.peso(50)
+        contenedorPortuario.cargarMuchas(#{knightRider, arenaAGranel})
+        assert.equals(650, contenedorPortuario.pesoTotal())
+        assert.equals(11, contenedorPortuario.nivelPeligrosidad())
+        embalajeSeguridad.embalar(knightRider)
+        assert.equals(500, embalajeSeguridad.pesoTotal())
+        assert.equals(5, embalajeSeguridad.nivelPeligrosidad())
+        bumblebee.transformadoAuto(true)
+        embalajeSeguridad.embalar(bumblebee)
+        assert.equals(800, embalajeSeguridad.pesoTotal())
+        assert.equals(7.5, embalajeSeguridad.nivelPeligrosidad())
+
+    }
+
 }
 
 	
