@@ -1,7 +1,7 @@
 import camion.*
 import cosas.*
 
-describe "el camión " {
+describe "el camión" {
 
 	test "carga y descarga" {
 		assert.that(camion.estaVacio())
@@ -64,15 +64,68 @@ describe "el camión " {
         bateriaAntiAerea.conMisiles(true)
         assert.equals(bateriaAntiAerea, camion.findAlgoConPeligrosidad(100))
     }
+test "cosas peligrosas" {
+    // setting
+    camion.cargar(knightRider)
+    camion.cargar(bateriaAntiAerea)
+    bateriaAntiAerea.conMisiles(true)
 
+    // Test: cosas más peligrosas  nivel de peligrosidad 15
+    assert.equals(#{bateriaAntiAerea}, 
+        camion.cosasMasPeligrosasQue(15)
+    )
+    
+    // Test: cosas más peligrosas que Bumblebee
+    assert.equals(#{bateriaAntiAerea}, 
+        camion.cosasMasPeligrosasQueLaCosa(bumblebee)
+    )
+
+    // Test: cosas más peligrosas que el nivel 2
+    bateriaAntiAerea.conMisiles(true)  // Desactivar misiles
+    assert.equals(#{knightRider, bateriaAntiAerea}, 
+        camion.cosasMasPeligrosasQue(2)
+    )
+    
+    // Test: cosas más peligrosas que el paquete de ladrillos
+    assert.equals(#{knightRider, bateriaAntiAerea}, 
+        camion.cosasMasPeligrosasQueLaCosa(paqueteLadrillos)
+    )
+
+    // Test: cosas más peligrosas que 200 (no hay)
+    assert.that(
+        camion.cosasMasPeligrosasQue(200).isEmpty()
+    )
+
+    // Test: cosas más peligrosas que los residuos radiactivos (no hay)
+    assert.that(
+        camion.cosasPeligrosasQue({cosa => cosa.nivelPeligrosidad() > residuosRadiactivos.nivelPeligrosidad()}).isEmpty()
+    )
+}
+/*
     test "cosas peligrosas" {
+        //setting
         camion.cargar(knightRider)
         camion.cargar(bateriaAntiAerea)
         bateriaAntiAerea.conMisiles(true)
-        assert.equals(#{bateriaAntiAerea}, camion.cosasPeligrosasQue({cosa.nivelPeligrosidad() == 15}))
-        assert.equals(#{bateriaAntiAerea}, camion.cosasPeligrosasQue({cosa.nivelPeligrosidad() > bumblebee.nivelPeligrosidad() }))
-        
-    }
+
+        assert.equals(#{bateriaAntiAerea}, 
+            camion.cosasPeligrosasQue({cosa.nivelPeligrosidad() == 15}))
+        assert.equals(#{bateriaAntiAerea}, 
+            camion.cosasPeligrosasQue({cosa.nivelPeligrosidad() > bumblebee.nivelPeligrosidad() }))
+        bateriaAntiAerea.conMisiles(false)
+        assert.equals(#{knightRider, bateriaAntiAerea}, 
+            camion.cosasPeligrosasQue({cosa.nivelPeligrosidad() > 2}) 
+        )
+        assert.equals({knightRider, bateriaAntiAerea}, 
+            camion.cosasPeligrosasQue({cosa.nivelPeligrosidad() > paqueteLadrillos.nivelPeligrosidad() })
+        )
+        assert.that(
+             camion.cosasPeligrosasQue({cosa.nivelPeligrosidad() > 200}).isEmpty()
+        )
+        assert.that(
+             camion.cosasPeligrosasQue({cosa.nivelPeligrosidad() > residuosRadiactivos.nivelPeligrosidad()}).isEmpty()
+        )
+    }*/
 }
 
 	
