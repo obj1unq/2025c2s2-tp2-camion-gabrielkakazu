@@ -158,6 +158,15 @@ test "cosas peligrosas" {
 
     }
 
+    test "tiene algo que pesa entre dos valores" {
+        //setting 
+        camion.cargar(bumblebee)
+        paqueteLadrillos.cantidad(300)
+        camion.cargar(paqueteLadrillos)
+        assert.notThat(camion.tieneAlgoQuePesaEntre(5,100))
+        assert.that(camion.tieneAlgoQuePesaEntre(5,1000))
+        assert.notThat(camion.tieneAlgoQuePesaEntre(900,1000))
+    }
 }
 
 	

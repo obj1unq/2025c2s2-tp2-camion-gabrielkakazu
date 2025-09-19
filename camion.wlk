@@ -78,6 +78,19 @@ object camion {
 		return not self.excedidoPeso() 
 			&& self.cosasMasPeligrosasQue(nivel).isEmpty()
 	}
+
+	method tieneAlgoQuePesaEntre(min, max) {
+		return cosas.any{unaCosa => unaCosa.peso().between(min, max)  
+		}
+	}
+
+	method hayAlgoQuePesaMasQue(kilos) {
+		return cosas.any{unaCosa => unaCosa.peso() >= kilos}
+	}
+
+	method hayAlgoQuePesaMenosQue(kilos) {
+		return cosas.any{unaCosa => unaCosa.peso() <= kilos}
+	}
 }
 
 object contenedorPortuario {
@@ -113,6 +126,8 @@ object contenedorPortuario {
 	method nivelPeligrosidad() {
 		return nivelDePeligrosidad + cosas.sum({cosa => cosa.nivelPeligrosidad()})
 	}
+
+	
 
 
 }
