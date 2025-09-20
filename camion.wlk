@@ -4,48 +4,48 @@ object camion {
 	const property cosas = #{}
 	
 //DEPOSITO Y CARGAS 
-	method cargar(unaCosa) {
-		self.validarCargar(unaCosa)
-		cosas.add(unaCosa)
+	method cargar(cosa) {
+		self.validarCargar(cosa)
+		cosas.add(cosa)
 	}
 
 	method cargarMuchas(variasCosas) {
 		cosas.addAll(variasCosas)
 	}
 
-	method validarCargar(unaCosa){
-		if (cosas.contains(unaCosa)){
-			self.error("deposito ya tiene " + unaCosa + ", no se puede cargar algo ya cargado")
+	method validarCargar(cosa){
+		if (cosas.contains(cosa)){
+			self.error("deposito ya tiene " + cosa + ", no se puede cargar algo ya cargado")
 		}
 	}
 
-	method descargar(unaCosa) {
-		self.validarDescargar(unaCosa)
-		cosas.remove(unaCosa)
+	method descargar(cosa) {
+		self.validarDescargar(cosa)
+		cosas.remove(cosa)
 	}
 
 	method descargarTodo() {
 		cosas.clear()
 	}
 
-	method validarDescargar(unaCosa){
-		return if (not self.tieneCargado(unaCosa)) {
-			self.error("no se tiene cargado " + unaCosa)
+	method validarDescargar(cosa){
+		return if (not self.tieneCargado(cosa)) {
+			self.error("no se tiene cargado " + cosa)
 		}
 	}
 
 	method estaVacio() {return cosas.isEmpty()}
 
-	method tieneCargado(unaCosa) {
-		return cosas.contains(unaCosa)
+	method tieneCargado(cosa) {
+		return cosas.contains(cosa)
 	}
 
 	method tiene(otrasCosas){
-		return otrasCosas.all{unaCosa => self.tieneCargado(unaCosa)}
+		return otrasCosas.all{cosa => self.tieneCargado(cosa)}
 	}
 
 	method soloCargaPar(){
-		return cosas.all{unaCosa => unaCosa.siEsPesoPar()}
+		return cosas.all{cosa => cosa.siEsPesoPar()}
 	}
 
 	method totalBultos() {
@@ -57,30 +57,30 @@ object camion {
 	const tara = 1000
 
 	method hayAlgoQuePesa(kilos) {
-		return cosas.any{unaCosa => unaCosa.peso() == kilos}
+		return cosas.any{cosa => cosa.peso() == kilos}
 	}
 
 	method excedidoPeso() {
 		return self.pesoTotal() > self.pesoMaximo()
 	}
 	
-	method tara() {return 1000}
+	method tara() {return tara}
 
 	method pesoTotal() {
 		return tara + cosas.sum({cosa => cosa.peso()})
 	}
 
 	method tieneAlgoQuePesaEntre(min, max) {
-		return cosas.any{unaCosa => unaCosa.peso().between(min, max)  
+		return cosas.any{cosa => cosa.peso().between(min, max)  
 		}
 	}
 
 	method hayAlgoQuePesaMasQue(kilos) {
-		return cosas.any{unaCosa => unaCosa.peso() >= kilos}
+		return cosas.any{cosa => cosa.peso() >= kilos}
 	}
 
 	method hayAlgoQuePesaMenosQue(kilos) {
-		return cosas.any{unaCosa => unaCosa.peso() <= kilos}
+		return cosas.any{cosa => cosa.peso() <= kilos}
 	}
 
 	method laCosaMasPesada() {
@@ -153,20 +153,20 @@ object contenedorPortuario {
 
 	method estaVacio() {return cosas.isEmpty()}
 
-	method cargar(unaCosa) {
-		cosas.add(unaCosa)
+	method cargar(cosa) {
+		cosas.add(cosa)
 	}
 
 	method cargarMuchas(variasCosas) {
 		cosas.addAll(variasCosas)
 	}
 
-	method descargar(unaCosa) {
-		cosas.remove(unaCosa)
+	method descargar(cosa) {
+		cosas.remove(cosa)
 	}
 	
 	method hayAlgoQuePesa(kilos) {
-		return cosas.any{unaCosa => unaCosa.peso() == kilos}
+		return cosas.any{cosa => cosa.peso() == kilos}
 	}
 
 	const tara = 100
@@ -200,8 +200,8 @@ object contenedorPortuario {
 object almacen{
 	const property cosas = #{}
 
-	method cargar(unaCosa) {
-		cosas.add(unaCosa)
+	method cargar(cosa) {
+		cosas.add(cosa)
 	}
 
 	method cargarMuchas(variasCosas) {

@@ -9,7 +9,7 @@ object knightRider {
 	method bultos() {return 1}
 
 	method accidente() {
-		console.println("KITT sin efecto por accidente")
+		console.println("accidente sin efecto en KITT")
 	}
 }
 
@@ -61,7 +61,6 @@ object paqueteLadrillos {
 	method peso() {
 		return peso * cantidad
 	}
-
 
 	method nivelPeligrosidad() { return 2 }
 
