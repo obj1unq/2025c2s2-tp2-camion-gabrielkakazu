@@ -2,6 +2,9 @@ import cosas.*
 
 object camion {
 	const property cosas = #{}
+
+	const pesoMaximo =  2500
+	const tara = 1000
 	
 //DEPOSITO Y CARGAS 
 	method cargar(cosa) {
@@ -10,6 +13,7 @@ object camion {
 	}
 
 	method cargarMuchas(variasCosas) {
+		variasCosas.forEach({cosa => self.validarCargar(cosa)})
 		cosas.addAll(variasCosas)
 	}
 
@@ -29,7 +33,7 @@ object camion {
 	}
 
 	method validarDescargar(cosa){
-		return if (not self.tieneCargado(cosa)) {
+		if (not self.tieneCargado(cosa)) {
 			self.error("no se tiene cargado " + cosa)
 		}
 	}
@@ -44,24 +48,21 @@ object camion {
 		return otrasCosas.all{cosa => self.tieneCargado(cosa)}
 	}
 
-	method soloCargaPar(){
-		return cosas.all{cosa => cosa.siEsPesoPar()}
-	}
+		method soloCargaPar() = cosas.all { cosa => cosa.peso().even() }
 
 	method totalBultos() {
 		return cosas.sum({cosa => cosa.bultos()})
 	}
 
 //PESO
-	var property pesoMaximo =  2500
-	const tara = 1000
+
 
 	method hayAlgoQuePesa(kilos) {
 		return cosas.any{cosa => cosa.peso() == kilos}
 	}
 
 	method excedidoPeso() {
-		return self.pesoTotal() > self.pesoMaximo()
+		return self.pesoTotal() > pesoMaximo
 	}
 	
 	method tara() {return tara}
@@ -73,14 +74,6 @@ object camion {
 	method tieneAlgoQuePesaEntre(min, max) {
 		return cosas.any{cosa => cosa.peso().between(min, max)  
 		}
-	}
-
-	method hayAlgoQuePesaMasQue(kilos) {
-		return cosas.any{cosa => cosa.peso() >= kilos}
-	}
-
-	method hayAlgoQuePesaMenosQue(kilos) {
-		return cosas.any{cosa => cosa.peso() <= kilos}
 	}
 
 	method laCosaMasPesada() {
@@ -107,6 +100,13 @@ object camion {
 		return cosas.find({cosa => cosa.nivelPeligrosidad() == peligrosidad})
 	}
 
+	method cosasPeligrosasQue(criterio) {
+    	return cosas.filter(criterio)
+	}
+	method cosasMasPeligrosasQue(nivelPeligrosidad) = self.cosasPeligrosasQue({ cosa => cosa.nivelPeligrosidad() > nivelPeligrosidad })
+
+	method cosasMasPeligrosasQueLaCosa(unaCosa) = self.cosasMasPeligrosasQue(unaCosa.nivelPeligrosidad())
+/*
 	method cosasPeligrosasQue(condicion){
 		return cosas.filter({cosa => condicion})
 	}
@@ -117,7 +117,7 @@ object camion {
 
 	method cosasMasPeligrosasQueLaCosa(unaCosa){
 		return cosas.filter({cosa => cosa.nivelPeligrosidad() > unaCosa.nivelPeligrosidad()})
-	}
+	}*/
 
 //RUTA
 	method puedeCircularPorRuta(nivel){
@@ -128,15 +128,13 @@ object camion {
 // TRANSPORTAR
 
 	method transportar(destino, camino) {
-		self.validarCamino(camino)
-		destino.cargarMuchas(cosas)
-		self.descargarTodo()
+			self.validarCamino(camino)
+			destino.cargarMuchas(cosas)
+			self.descargarTodo()
 	}
 
 	method validarCamino(camino) {
-		if (not self.puedeCircularPorRuta(
-				camino.nivelPeligrosidadPermitido()) 
-			or (self.pesoTotal() > camino.pesoMaximoPermitido())) {
+		if (not camino.puedeCircular(self)){
 				self.error("no puede circular por el camino")
 			}
 	}
@@ -148,84 +146,5 @@ object camion {
 }
 
 
-object contenedorPortuario {
-	const property cosas = #{}
-
-	method estaVacio() {return cosas.isEmpty()}
-
-	method cargar(cosa) {
-		cosas.add(cosa)
-	}
-
-	method cargarMuchas(variasCosas) {
-		cosas.addAll(variasCosas)
-	}
-
-	method descargar(cosa) {
-		cosas.remove(cosa)
-	}
-	
-	method hayAlgoQuePesa(kilos) {
-		return cosas.any{cosa => cosa.peso() == kilos}
-	}
-
-	const tara = 100
-	method tara() {return tara}
-
-	var property nivelDePeligrosidad = 0
-
-	method peso() {
-		return tara + cosas.sum({cosa => cosa.peso()})
-	}
-
-	method nivelPeligrosidad() {
-		return nivelDePeligrosidad + cosas.sum({cosa => cosa.nivelPeligrosidad()})
-	}
-
-	method bultos() {
-		return 
-			1 + cosas.sum({cosa => cosa.bultos()} )
-	}
-
-	method accidente() {
-		cosas.forEach({cosa => cosa.accidente()})
-	}
-	
 
 
-}
-
-
-//DESTINO
-object almacen{
-	const property cosas = #{}
-
-	method cargar(cosa) {
-		cosas.add(cosa)
-	}
-
-	method cargarMuchas(variasCosas) {
-		cosas.addAll(variasCosas)
-	}
-}
-
-
-// CAMINOS
-object ruta9 {
-	
-	var property pesoMaximoPermitido = 9999999
-
-	method nivelPeligrosidadPermitido() {
-		return 20
-	}
-}
-
-object caminoVecinal {
-
-	var property pesoMaximoPermitido = 0
-
-	method nivelPeligrosidadPermitido() {
-		return 99999
-	}
-
-}

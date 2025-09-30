@@ -1,5 +1,6 @@
 import camion.*
 import cosas.*
+import caminos.*
 
 describe "Tests del camión" {
 
@@ -47,10 +48,10 @@ describe "Tests del camión" {
     }
 
     test "El de nivel de peligrosidad" {
-        bumblebee.transformar()
-        assert.that(bumblebee.transformadoAuto())
+        //bumblebee.transformar()
+        assert.equals(auto, bumblebee.estado())
         camion.cargar(bumblebee)
-        bateriaAntiAerea.conMisiles(false)
+        bateriaAntiAerea.misiles(sinMisiles)
         camion.cargar(bateriaAntiAerea)
         camion.cargar(residuosRadiactivos)
 
@@ -59,16 +60,16 @@ describe "Tests del camión" {
         assert.equals(residuosRadiactivos, camion.findAlgoConPeligrosidad(200))
         assert.throwsException({camion.findAlgoConPeligrosidad(30)})
         bumblebee.transformar()
-        assert.notThat(bumblebee.transformadoAuto())
+        assert.equals(robot, bumblebee.estado())
         assert.equals(bumblebee, camion.findAlgoConPeligrosidad(30))
-        bateriaAntiAerea.conMisiles(true)
+        bateriaAntiAerea.misiles(conMisiles)
         assert.equals(bateriaAntiAerea, camion.findAlgoConPeligrosidad(100))
     }
 test "cosas peligrosas" {
     // setting
     camion.cargar(knightRider)
     camion.cargar(bateriaAntiAerea)
-    bateriaAntiAerea.conMisiles(true)
+    bateriaAntiAerea.misiles(conMisiles)
 
     // Test: cosas más peligrosas  nivel de peligrosidad 15
     assert.equals(#{bateriaAntiAerea}, 
@@ -81,7 +82,7 @@ test "cosas peligrosas" {
     )
 
     // Test: cosas más peligrosas que el nivel 2
-    bateriaAntiAerea.conMisiles(true)  // Desactivar misiles
+    bateriaAntiAerea.misiles(conMisiles)  // Desactivar misiles
     assert.equals(#{knightRider, bateriaAntiAerea}, 
         camion.cosasMasPeligrosasQue(2)
     )
@@ -130,7 +131,7 @@ test "cosas peligrosas" {
     test "puede circular en ruta"{
         camion.cargar(paqueteLadrillos)
         camion.cargar(bumblebee)
-        bumblebee.transformadoAuto(true)
+        bumblebee.estado(auto)
         paqueteLadrillos.cantidad(300)
         assert.that(camion.puedeCircularPorRuta(20))
         paqueteLadrillos.cantidad(400)
@@ -147,11 +148,11 @@ test "cosas peligrosas" {
         arenaAGranel.peso(50)
         contenedorPortuario.cargarMuchas(#{knightRider, arenaAGranel})
         assert.equals(650, contenedorPortuario.peso())
-        assert.equals(11, contenedorPortuario.nivelPeligrosidad())
+        assert.equals(10, contenedorPortuario.nivelPeligrosidad())
         embalajeSeguridad.embalar(knightRider)
         assert.equals(500, embalajeSeguridad.peso())
         assert.equals(5, embalajeSeguridad.nivelPeligrosidad())
-        bumblebee.transformadoAuto(true)
+        bumblebee.estado(auto)
         embalajeSeguridad.embalar(bumblebee)
         assert.equals(800, embalajeSeguridad.peso())
         assert.equals(7.5, embalajeSeguridad.nivelPeligrosidad())
@@ -191,7 +192,7 @@ test "cosas peligrosas" {
         contenedorPortuario.cargar(bumblebee)
         embalajeSeguridad.embalar(residuosRadiactivos)
         paqueteLadrillos.cantidad(50)
-        bateriaAntiAerea.conMisiles(false)
+        bateriaAntiAerea.misiles(sinMisiles)
         camion.cargar(contenedorPortuario) 
         camion.cargar(embalajeSeguridad) 
         camion.cargar(arenaAGranel)
@@ -203,7 +204,7 @@ test "cosas peligrosas" {
 
     test "Caso 2 de bultos"{
         paqueteLadrillos.cantidad(150)
-        bateriaAntiAerea.conMisiles(true)
+        bateriaAntiAerea.misiles(conMisiles)
         camion.cargar(contenedorPortuario)
         camion.cargar(paqueteLadrillos)
         camion.cargar(bateriaAntiAerea)

@@ -1,25 +1,21 @@
+import camion.*
+import caminos.*
+
 object knightRider {
 	method peso() { return 500 }
 	method nivelPeligrosidad() { return 10 }
 
-	method siEsPesoPar() {
-		return self.peso().even()
-	}
-
 	method bultos() {return 1}
 
 	method accidente() {
-		console.println("accidente sin efecto en KITT")
+		// console.println("accidente sin efecto en KITT") 
+		// le agregué el print para chequear que el testeo el método accidente() sí funcionaba dentro de un embalaje
 	}
 }
 
 object arenaAGranel {
 	var property peso = 0
 	method nivelPeligrosidad() { return 1 }
-
-	method siEsPesoPar() {
-		return self.peso().even()
-	}
 
 	method bultos() {return 1}
 
@@ -30,28 +26,29 @@ object arenaAGranel {
 }
 
 object bumblebee {
-	var property transformadoAuto = false
+	var property estado = auto
 
 	method transformar() {
-		transformadoAuto = !transformadoAuto
-	}
-	method peso() { return 800 }
-	method nivelPeligrosidad() { if (transformadoAuto) {
-		return 15 
-		} else {
-			return 30
-		}
+		 estado = estado.transformar()
 	}
 
-	method siEsPesoPar() {
-		return self.peso().even()
-	}
+	method peso() { return 800 }
+
+	method nivelPeligrosidad() = estado.nivelPeligrosidad()
 
 	method bultos() {return 2}
 
 	method accidente() {
 		self.transformar()
 	}
+}
+object auto {
+  method nivelPeligrosidad() = 15
+   method transformar() { return robot }
+}
+object robot {
+  method nivelPeligrosidad() = 30
+  method transformar() { return auto }
 }
 
 object paqueteLadrillos {
@@ -64,18 +61,16 @@ object paqueteLadrillos {
 
 	method nivelPeligrosidad() { return 2 }
 
-	method siEsPesoPar() {
-		return self.peso().even()
-	}
-
-	method bultos() {
+	/* method bultos() {
 		return if (cantidad >300) {
 			3} else if (cantidad <=100) {
 				1
 			} else {
 				2
 			}
-	}
+	}*/
+
+	method bultos() = if (cantidad.between(101, 300)) 2 else if (cantidad > 300) 3 else 1
 
 	method accidente() {
 		cantidad = (cantidad - 12).max(0)
@@ -83,7 +78,27 @@ object paqueteLadrillos {
 
 }
 
+object bateriaAntiAerea {
+    var property misiles = conMisiles
+    method peso() = misiles .peso()
+    method nivelPeligrosidad() = misiles.nivelPeligrosidad()
+    method bultos() = misiles.bultos()
+    method accidente() { misiles = misiles.accidente() }
+}
+object conMisiles {
+    method peso() = 300
+    method nivelPeligrosidad() = 100
+    method bultos() = 2
+    method accidente() {return sinMisiles }
+}
+object sinMisiles {
+    method peso() = 200
+    method nivelPeligrosidad() = 0
+    method bultos() = 1
+    method accidente() {return self}
+}
 
+/*
 object bateriaAntiAerea {
 	var property conMisiles = true
 
@@ -107,16 +122,12 @@ object bateriaAntiAerea {
 	method accidente() {
 		self.conMisiles(false)
 	}
-}
+}*/
 
 object residuosRadiactivos	{
 	var property peso = 0
 
 	method nivelPeligrosidad() {return 200}
-
-	method siEsPesoPar() {
-		return self.peso().even()
-	}
 
 	method bultos() {return 1}
 
@@ -127,7 +138,6 @@ object residuosRadiactivos	{
 
 object embalajeSeguridad {
 	var embalado = knightRider
-	var property peso = 0
 
 	method nivelPeligrosidad() {
 		return embalado.nivelPeligrosidad()/ 2}
@@ -146,3 +156,54 @@ object embalajeSeguridad {
 
 }
 
+object contenedorPortuario {
+	const property cosas = #{}
+	const tara = 100
+	
+	method estaVacio() {return cosas.isEmpty()}
+
+	method cargar(cosa) {
+		cosas.add(cosa)
+	}
+
+	method cargarMuchas(variasCosas) {
+		cosas.addAll(variasCosas)
+	}
+
+	method descargar(cosa) {
+		cosas.remove(cosa)
+	}
+	
+	method hayAlgoQuePesa(kilos) {
+		return cosas.any{cosa => cosa.peso() == kilos}
+	}
+
+	method tara() {return tara}
+	
+	method peso() {
+		return tara + cosas.sum({cosa => cosa.peso()})
+	}
+
+	method nivelPeligrosidad() {
+		return cosas.map({cosa => cosa.nivelPeligrosidad()}).maxIfEmpty({0})
+	}
+
+	method bultos() {
+		return 
+			1 + cosas.sum({cosa => cosa.bultos()} )
+	}
+
+	method accidente() {
+		cosas.forEach({cosa => cosa.accidente()})
+	}
+}
+
+
+//DESTINO
+object almacen{
+	const property cosas = #{}
+
+	method cargarMuchas(variasCosas) {
+		cosas.addAll(variasCosas)
+	}
+}

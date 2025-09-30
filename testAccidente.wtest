@@ -1,9 +1,10 @@
 import camion.*
 import cosas.*
+import caminos.*
 
 describe "Tests Accidente " {
     test "caso 1 accidente llevando contenedor, embalaje y cosas" {
-        bumblebee.transformadoAuto(true)
+        bumblebee.estado(auto)
 
         contenedorPortuario.cargarMuchas(#{bumblebee, knightRider})
         
@@ -12,7 +13,7 @@ describe "Tests Accidente " {
         
         arenaAGranel.peso(50)
         paqueteLadrillos.cantidad(100)
-        bateriaAntiAerea.conMisiles(true)
+        bateriaAntiAerea.misiles(conMisiles)
         camion.cargarMuchas(#{contenedorPortuario, 
             embalajeSeguridad,
             arenaAGranel, 
@@ -23,24 +24,24 @@ describe "Tests Accidente " {
         // accidente
         camion.sufreAccidente()
         
-        assert.notThat(bumblebee.transformadoAuto())
+        assert.notEquals(auto, bumblebee.estado())
         assert.equals(45, residuosRadiactivos.peso()) //el embalado de seguridad no funca LOL
         assert.equals(70, arenaAGranel.peso())
         assert.equals(88, paqueteLadrillos.cantidad())
     }
 
     test "Caso 2 Accidente solo con cosas" {
-        bumblebee.transformadoAuto(false)
+        bumblebee.estado(robot)
         residuosRadiactivos.peso(30)
         paqueteLadrillos.cantidad(10)
-        bateriaAntiAerea.conMisiles(false)
+        bateriaAntiAerea.misiles(sinMisiles)
         camion.cargarMuchas(#{bumblebee, residuosRadiactivos, paqueteLadrillos, bateriaAntiAerea})
         //setting
 
         camion.sufreAccidente()
-        assert.that(bumblebee.transformadoAuto())
+        assert.equals(auto, bumblebee.estado())
         assert.equals(45, residuosRadiactivos.peso())
         assert.equals(0, paqueteLadrillos.cantidad())
-        assert.notThat(bateriaAntiAerea.conMisiles())
+        assert.notEquals(conMisiles, bateriaAntiAerea.misiles())
     }
 }

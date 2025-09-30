@@ -1,16 +1,17 @@
 import camion.*
 import cosas.*
+import caminos.*
 
 describe "Tests de Transporte"{
     method initialize() {
         almacen.cargarMuchas(#{knightRider, residuosRadiactivos})
-        bumblebee.transformadoAuto(true)
+        bumblebee.estado(auto)
         arenaAGranel.peso(50)
         camion.cargarMuchas(#{arenaAGranel, bumblebee})
     }
 
     test "Caso: ruta 9 exitoso" {
-        ruta9
+        
         camion.transportar(almacen, ruta9)
         assert.that(camion.estaVacio())
         assert.equals(
@@ -19,7 +20,7 @@ describe "Tests de Transporte"{
     }
 
     test "caso ruta 9 fallido por peligrosidad" {
-        bumblebee.transformadoAuto(false)
+        bumblebee.estado(robot)
         assert.throwsException({camion.transportar(almacen, ruta9)})
         assert.equals(#{knightRider, residuosRadiactivos}, almacen.cosas())
         assert.equals(#{bumblebee, arenaAGranel}, camion.cosas())
