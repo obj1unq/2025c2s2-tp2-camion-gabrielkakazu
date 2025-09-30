@@ -1,0 +1,47 @@
+import camion.*
+import cosas.*
+import caminos.*
+
+describe "Tests Accidente " {
+    test "caso 1 accidente llevando contenedor, embalaje y cosas" {
+        bumblebee.estado(auto)
+
+        contenedorPortuario.cargarMuchas(#{bumblebee, knightRider})
+        
+        residuosRadiactivos.peso(30)
+        embalajeSeguridad.embalar(residuosRadiactivos)
+        
+        arenaAGranel.peso(50)
+        paqueteLadrillos.cantidad(100)
+        bateriaAntiAerea.misiles(conMisiles)
+        camion.cargarMuchas(#{contenedorPortuario, 
+            embalajeSeguridad,
+            arenaAGranel, 
+            paqueteLadrillos,
+            bateriaAntiAerea})
+        // setting
+
+        // accidente
+        camion.sufreAccidente()
+        
+        assert.notEquals(auto, bumblebee.estado())
+        assert.equals(45, residuosRadiactivos.peso()) //el embalado de seguridad no funca LOL
+        assert.equals(70, arenaAGranel.peso())
+        assert.equals(88, paqueteLadrillos.cantidad())
+    }
+
+    test "Caso 2 Accidente solo con cosas" {
+        bumblebee.estado(robot)
+        residuosRadiactivos.peso(30)
+        paqueteLadrillos.cantidad(10)
+        bateriaAntiAerea.misiles(sinMisiles)
+        camion.cargarMuchas(#{bumblebee, residuosRadiactivos, paqueteLadrillos, bateriaAntiAerea})
+        //setting
+
+        camion.sufreAccidente()
+        assert.equals(auto, bumblebee.estado())
+        assert.equals(45, residuosRadiactivos.peso())
+        assert.equals(0, paqueteLadrillos.cantidad())
+        assert.notEquals(conMisiles, bateriaAntiAerea.misiles())
+    }
+}
